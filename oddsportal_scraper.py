@@ -185,13 +185,8 @@ def oddsportal_football_next_matches_1x2_odds(country = 'germany', division = 'b
                 break
         
                 
-        print('...bookmakers & odds read')
-
-
-        
-
-        break 
-
+    print('...bookmakers & odds read')
+       
 
     #close browser
     try:
