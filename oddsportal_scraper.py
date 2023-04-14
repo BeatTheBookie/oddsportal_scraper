@@ -7,12 +7,28 @@ import numpy as np
 import pandas as pd
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 
 
 
-#define browser + close possible open windows
-global browser
+
+
+#
+# function for general browser configuration
+#
+
+def init_browser():
+    
+    # Add the "--headless" option to ChromeOptions
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")
+
+    browser = webdriver.Chrome(executable_path=ChromeDriverManager().install(), chrome_options=chrome_options)
+
+    return browser
+
+
 
 
 
@@ -37,7 +53,7 @@ def oddsportal_football_next_matches_list(country = 'germany', division = 'bunde
         pass
 
     print('...downloading webdriver (if not yet happened)')
-    browser = webdriver.Chrome(executable_path=ChromeDriverManager().install())
+    browser = init_browser()
     browser.get(v_url)
 
     print('...waiting 4 seconds')
@@ -85,7 +101,7 @@ def oddsportal_football_next_matches_1x2_odds(country = 'germany', division = 'b
             pass
         
         #call 1x2 website
-        browser = webdriver.Chrome(executable_path=ChromeDriverManager().install())
+        browser = init_browser()
         browser.get(v_match_1x2_url)
 
         print('...waiting 4 seconds')
