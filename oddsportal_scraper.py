@@ -76,6 +76,47 @@ def oddsportal_football_next_matches_list(country = 'germany', division = 'bunde
 
 
 #
+# function to provide the list of
+# match urls for historic matches of the given season
+#
+
+def oddsportal_football_hist_matches_list(country = 'germany', division = 'bundesliga', season = '2022-2023'):
+
+    #variables
+    his_match_list=[]
+
+    #check if current season or past season
+    #as the url is different
+
+    current_year = datetime.now().year
+    season_years = season.split('-')
+
+    if (season_years[0] == str(current_year) or season_years[1] == str(current_year)):
+        print(f"{season} is the current season.")
+
+        #create url for historic fixtures
+        v_base_url = 'https://www.oddsportal.com/football/{}/{}/results/'.format(country,division)
+        print(v_base_url)
+    else:
+        print(f"{season} is not the current season.")
+
+        #create url for historic fixtures
+        v_base_url = 'https://www.oddsportal.com/football/{}/{}-{}/results/'.format(country,division,season)
+        print(v_base_url)
+
+    
+    for v_page in range(1,10):
+        
+        v_url = v_base_url + '#/page/{}/'.format(v_page)
+
+        print(v_url)
+
+        
+    
+
+    return 'test'
+
+#
 # get 1x2 odds for next football
 # matches
 #
