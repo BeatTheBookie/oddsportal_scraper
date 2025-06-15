@@ -1,0 +1,7 @@
+
+
+
+# AWS Zugangsdaten (füge hier deine Daten ein)
+AWS_ACCESS_KEY_ID = 'xxxx'
+AWS_SECRET_ACCESS_KEY = 'xxx'
+AWS_REGION = 'eu-central-1'  # Region z.B. Frankfurt
