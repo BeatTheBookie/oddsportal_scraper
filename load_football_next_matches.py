@@ -2,11 +2,15 @@ import json
 import pandas as pd
 import boto3
 import io
-import os
 import re
 from datetime import datetime
-from oddsportal_scraper import *  # dein bestehendes oddsportal modul
+from oddsportal_scraper import *  # load oddsportal scrapper
 
+# for env variables
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 
 AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
