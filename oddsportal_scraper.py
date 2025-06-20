@@ -82,7 +82,11 @@ def oddsportal_football_next_matches_1x2_odds(country = 'germany', division = 'b
     v_url = f"https://www.oddsportal.com/football/{country}/{division}/"
 
     browser.get(v_url)
-    
+
+    with open("oddsportal_debug_{country}.html", "w", encoding="utf-8") as f:
+        f.write(browser.page_source)
+
+    browser.save_screenshot("oddsportal_debug_{country}.png")   
 
     #collect data
     match_elements = browser.find_elements(By.CSS_SELECTOR, "div.border-b.border-l.border-r")
@@ -112,7 +116,7 @@ def oddsportal_football_next_matches_1x2_odds(country = 'germany', division = 'b
     df_next_matches = pd.DataFrame(match_data)
     
     # close browser
-    browser.close
+    browser.close()
 
 
     return df_next_matches
