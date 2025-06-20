@@ -37,8 +37,8 @@ def clean_filename(text):
     return re.sub(r'\W+', '_', text.strip().lower())
 
 #read config file
-#with open(r'C:\Users\andre\OneDrive\betting_db\050_repos\oddsportal_scraper\football_next_matches.config', 'r') as f:
-with open('football_next_matches.config', 'r') as f:
+with open(r'C:\Users\andre\OneDrive\betting_db\050_repos\oddsportal_scraper\football_next_matches.config', 'r') as f:
+#with open('football_next_matches.config', 'r') as f:
     config_data = json.load(f)
 
     for element in config_data:
