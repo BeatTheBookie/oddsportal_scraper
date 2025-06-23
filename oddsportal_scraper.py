@@ -82,14 +82,7 @@ def oddsportal_football_next_matches_1x2_odds(country = 'germany', division = 'b
 
     v_url = f"https://www.oddsportal.com/football/{country}/{division}/"
 
-    try:
-        # Warte maximal 15 Sekunden, bis mindestens ein Match-Element sichtbar ist
-        WebDriverWait(browser, 15).until(
-            EC.visibility_of_element_located((By.CSS_SELECTOR, "div.border-b.border-l.border-r"))
-        )
-    except Exception as e:
-        print(f"⚠️ Zeitüberschreitung beim Warten auf Match-Daten: {e}")
-
+    browser.get(v_url)
 
     with open("oddsportal_debug_{country}.html", "w", encoding="utf-8") as f:
         f.write(browser.page_source)
