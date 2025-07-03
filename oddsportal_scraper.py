@@ -57,7 +57,7 @@ def init_browser(proxy = None):
 
     # use proxy
     if proxy:
-        chrome_options.add_argument(f"--proxy-server=http://{proxy}")
+        chrome_options.add_argument(f"--proxy-server={proxy}")
 
     service = Service(ChromeDriverManager().install())
     browser = webdriver.Chrome(service=service, options=chrome_options)
