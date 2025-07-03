@@ -41,7 +41,7 @@ from selenium.webdriver.support import expected_conditions as EC
 # function for general browser configuration
 #
 
-def init_browser():
+def init_browser(proxy = None):
     
     # Headless Chrome
     chrome_options = Options()
@@ -54,6 +54,10 @@ def init_browser():
     # User-Agent-Header setzen
     # chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36")
     chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:115.0) Gecko/20100101 Firefox/115.0")
+
+    # use proxy
+    if proxy:
+        chrome_options.add_argument(f"--proxy-server=http://{proxy}")
 
     service = Service(ChromeDriverManager().install())
     browser = webdriver.Chrome(service=service, options=chrome_options)
@@ -70,7 +74,7 @@ def init_browser():
 # matches
 #
 
-def oddsportal_football_next_matches_1x2_odds(country = 'germany', division = 'bundesliga'):
+def oddsportal_football_next_matches_1x2_odds(country = 'germany', division = 'bundesliga', proxy = None):
 
     # 
     # open default page of oddsportal and get all matches url
@@ -78,7 +82,7 @@ def oddsportal_football_next_matches_1x2_odds(country = 'germany', division = 'b
     #
 
     # open url
-    browser = init_browser()
+    browser = init_browser(proxy)
 
     v_url = f"https://www.oddsportal.com/football/{country}/{division}/"
 

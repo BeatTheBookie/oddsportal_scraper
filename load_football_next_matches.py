@@ -18,6 +18,9 @@ AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
 AWS_REGION = os.getenv("AWS_REGION")
 
 
+proxy = "161.35.70.249:3128"
+#proxy = None;
+
 # AWS S3 Pfad
 
 S3_BUCKET = 'btb-raw-layer'
@@ -49,7 +52,7 @@ with open('football_next_matches.config', 'r') as f:
         v_league = element['league']
 
         # scrape odds
-        df_next_matches_1x2_odds = oddsportal_football_next_matches_1x2_odds(v_country, v_league)
+        df_next_matches_1x2_odds = oddsportal_football_next_matches_1x2_odds(v_country, v_league, proxy)
 
         # add load timestamp
         df_next_matches_1x2_odds['load_ts'] = datetime.datetime.utcnow().isoformat()
