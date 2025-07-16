@@ -17,9 +17,10 @@ AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
 AWS_REGION = os.getenv("AWS_REGION")
 
+print(os.path.dirname(os.path.abspath(__file__)))
 
-proxy = "161.35.70.249:3128"
-#proxy = None;
+#proxy = "38.180.82.210:8080"
+proxy = None;
 
 # AWS S3 Pfad
 
@@ -40,9 +41,9 @@ def clean_filename(text):
     return re.sub(r'\W+', '_', text.strip().lower())
 
 #read config file
-#with open(r'C:\Users\andre\OneDrive\betting_db\050_repos\oddsportal_scraper\football_next_matches.config', 'r') as f:
+with open(r'C:\Users\andre\OneDrive\betting_db\050_repos\oddsportal_scraper\football_next_matches.config', 'r') as f:
 #with open(r'C:\Users\AndreDörr-aretoconsu\OneDrive\betting_db\050_repos\oddsportal_scraper\football_next_matches.config', 'r') as f:
-with open('football_next_matches.config', 'r') as f:
+#with open('football_next_matches.config', 'r') as f:
     config_data = json.load(f)
 
     for element in config_data:

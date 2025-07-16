@@ -57,7 +57,8 @@ def init_browser(proxy = None):
 
     # use proxy
     if proxy:
-        chrome_options.add_argument(f"--proxy-server={proxy}")
+        chrome_options.add_argument(f"--proxy-server=https://{proxy}")
+        print(f"🔌 Proxy verwendet: https://{proxy}")
 
     service = Service(ChromeDriverManager().install())
     browser = webdriver.Chrome(service=service, options=chrome_options)
@@ -74,27 +75,37 @@ def init_browser(proxy = None):
 # matches
 #
 
-def oddsportal_football_next_matches_1x2_odds(country = 'germany', division = 'bundesliga', proxy = None):
-
-    # 
-    # open default page of oddsportal and get all matches url
-    # for 1x2 odds, the average odds are already included
-    #
-
-    # open url
+def oddsportal_football_next_matches_1x2_odds(country='germany', division='bundesliga', proxy=None, debug=True):
     browser = init_browser(proxy)
 
     v_url = f"https://www.oddsportal.com/football/{country}/{division}/"
+    print(f"🔍 Lade Seite: {v_url}")
 
     browser.get(v_url)
 
-    with open("oddsportal_debug_{country}.html", "w", encoding="utf-8") as f:
-        f.write(browser.page_source)
+    # Speichere HTML und Screenshot zur Analyse
+    page_source = browser.page_source
+    debug_filename_html = f"oddsportal_debug_{country}.html"
+    debug_filename_png = f"oddsportal_debug_{country}.png"
 
-    browser.save_screenshot("oddsportal_debug_{country}.png")   
+    with open(debug_filename_html, "w", encoding="utf-8") as f:
+        f.write(page_source)
 
-    #collect data
+    browser.save_screenshot(debug_filename_png)
+
+    if debug:
+        print(f"💾 HTML gespeichert unter: {debug_filename_html}")
+        print(f"🖼️ Screenshot gespeichert unter: {debug_filename_png}")
+        print(f"📄 Länge HTML: {len(page_source)} Zeichen")
+
+        if "Access Denied" in page_source or "captcha" in page_source.lower():
+            print("🚫 Zugriff wurde möglicherweise blockiert (Access Denied oder Captcha erkannt)")
+
+    # Sammle Spielelemente
     match_elements = browser.find_elements(By.CSS_SELECTOR, "div.border-b.border-l.border-r")
+
+    if debug:
+        print(f"🔎 Gefundene Match-Blöcke: {len(match_elements)}")
 
     match_data = []
 
@@ -114,17 +125,19 @@ def oddsportal_football_next_matches_1x2_odds(country = 'germany', division = 'b
                     "avg_odds_away_win": odds[2].text.strip()
                 })
         except Exception as e:
-            print(f"⚠️ Fehler bei Spiel-Element: {e}")
+            print(f"⚠️ Fehler beim Verarbeiten eines Spiels: {e}")
             continue
-    
-    # create data frame
-    df_next_matches = pd.DataFrame(match_data)
-    
-    # close browser
+
+    # Browser schließen
     browser.quit()
 
+    # In DataFrame umwandeln
+    df_next_matches = pd.DataFrame(match_data)
+
+    if debug:
+        if df_next_matches.empty:
+            print("⚠️ Keine Spiele gefunden. Möglicherweise hat sich das Layout geändert oder du wurdest geblockt.")
+        else:
+            print(f"✅ {len(df_next_matches)} Spiele erfolgreich extrahiert.")
 
     return df_next_matches
-
-
-
